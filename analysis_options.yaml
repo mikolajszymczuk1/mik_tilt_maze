@@ -1,0 +1,62 @@
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  exclude:
+    - build/**
+    - .dart_tool/**
+    - lib/generated/**
+    - lib/**.g.dart
+    - lib/**.freezed.dart
+
+  errors:
+    invalid_use_of_protected_member: error
+    invalid_use_of_visible_for_testing_member: error
+    missing_required_param: error
+    missing_return: error
+
+linter:
+  rules:
+    # Base config
+    always_use_package_imports: true
+    avoid_print: true
+    avoid_relative_lib_imports: true
+    avoid_unnecessary_containers: true
+    prefer_const_constructors: true
+    prefer_const_constructors_in_immutables: true
+    prefer_const_declarations: true
+    prefer_const_literals_to_create_immutables: true
+    prefer_final_fields: true
+    prefer_final_locals: true
+    use_super_parameters: true
+    prefer_single_quotes: true
+
+    # Readability
+    always_declare_return_types: true
+    avoid_function_literals_in_foreach_calls: true
+    avoid_returning_null: true
+    prefer_expression_function_bodies: true
+    prefer_interpolation_to_compose_strings: true
+    unnecessary_late: true
+    unnecessary_this: true
+
+    # Security
+    unnecessary_null_checks: true
+    unnecessary_null_in_if_null_operators: true
+    prefer_null_aware_method_calls: true
+    use_if_null_to_convert_nulls_to_bools: true
+
+    # Optimization
+    sized_box_for_whitespace: true
+    use_decorated_box: true
+    use_colored_box: true
+
+    # Collections and Iterables
+    prefer_foreach: true
+    prefer_iterable_whereType: true
+    unnecessary_to_list_in_spreads: true
+    unnecessary_lambdas: true
+
+    # Documentation
+    slash_for_doc_comments: true
+    sort_child_properties_last: true
+    use_key_in_widget_constructors: true

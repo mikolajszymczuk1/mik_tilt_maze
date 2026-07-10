@@ -4,7 +4,10 @@ part of 'game_bloc.dart';
 sealed class GameState with _$GameState {
   const GameState._();
 
-  const factory GameState({@Default('hello') String msg}) = _GameState;
+  const factory GameState({
+    @Default('hello') String msg,
+    MazeLevel? currentLevel,
+  }) = _GameState;
 
   factory GameState.initial() => const GameState();
 }

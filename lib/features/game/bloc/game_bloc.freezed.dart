@@ -56,11 +56,12 @@ extension GameEventPatterns on GameEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Something value)?  something,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Something value)?  something,TResult Function( _LoadLevel value)?  loadLevel,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _Something() when something != null:
-return something(_that);case _:
+return something(_that);case _LoadLevel() when loadLevel != null:
+return loadLevel(_that);case _:
   return orElse();
 
 }
@@ -78,11 +79,12 @@ return something(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Something value)  something,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Something value)  something,required TResult Function( _LoadLevel value)  loadLevel,}){
 final _that = this;
 switch (_that) {
 case _Something():
-return something(_that);}
+return something(_that);case _LoadLevel():
+return loadLevel(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -96,11 +98,12 @@ return something(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Something value)?  something,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Something value)?  something,TResult? Function( _LoadLevel value)?  loadLevel,}){
 final _that = this;
 switch (_that) {
 case _Something() when something != null:
-return something(_that);case _:
+return something(_that);case _LoadLevel() when loadLevel != null:
+return loadLevel(_that);case _:
   return null;
 
 }
@@ -117,10 +120,11 @@ return something(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  something,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  something,TResult Function( String levelName)?  loadLevel,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Something() when something != null:
-return something();case _:
+return something();case _LoadLevel() when loadLevel != null:
+return loadLevel(_that.levelName);case _:
   return orElse();
 
 }
@@ -138,10 +142,11 @@ return something();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  something,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  something,required TResult Function( String levelName)  loadLevel,}) {final _that = this;
 switch (_that) {
 case _Something():
-return something();}
+return something();case _LoadLevel():
+return loadLevel(_that.levelName);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -155,10 +160,11 @@ return something();}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  something,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  something,TResult? Function( String levelName)?  loadLevel,}) {final _that = this;
 switch (_that) {
 case _Something() when something != null:
-return something();case _:
+return something();case _LoadLevel() when loadLevel != null:
+return loadLevel(_that.levelName);case _:
   return null;
 
 }
@@ -199,9 +205,75 @@ String toString() {
 
 
 /// @nodoc
+
+
+class _LoadLevel implements GameEvent {
+  const _LoadLevel(this.levelName);
+  
+
+ final  String levelName;
+
+/// Create a copy of GameEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$LoadLevelCopyWith<_LoadLevel> get copyWith => __$LoadLevelCopyWithImpl<_LoadLevel>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoadLevel&&(identical(other.levelName, levelName) || other.levelName == levelName));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,levelName);
+
+@override
+String toString() {
+  return 'GameEvent.loadLevel(levelName: $levelName)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$LoadLevelCopyWith<$Res> implements $GameEventCopyWith<$Res> {
+  factory _$LoadLevelCopyWith(_LoadLevel value, $Res Function(_LoadLevel) _then) = __$LoadLevelCopyWithImpl;
+@useResult
+$Res call({
+ String levelName
+});
+
+
+
+
+}
+/// @nodoc
+class __$LoadLevelCopyWithImpl<$Res>
+    implements _$LoadLevelCopyWith<$Res> {
+  __$LoadLevelCopyWithImpl(this._self, this._then);
+
+  final _LoadLevel _self;
+  final $Res Function(_LoadLevel) _then;
+
+/// Create a copy of GameEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? levelName = null,}) {
+  return _then(_LoadLevel(
+null == levelName ? _self.levelName : levelName // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
 mixin _$GameState {
 
- String get msg;
+ String get msg; MazeLevel? get currentLevel;
 /// Create a copy of GameState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -212,16 +284,16 @@ $GameStateCopyWith<GameState> get copyWith => _$GameStateCopyWithImpl<GameState>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is GameState&&(identical(other.msg, msg) || other.msg == msg));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is GameState&&(identical(other.msg, msg) || other.msg == msg)&&(identical(other.currentLevel, currentLevel) || other.currentLevel == currentLevel));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,msg);
+int get hashCode => Object.hash(runtimeType,msg,currentLevel);
 
 @override
 String toString() {
-  return 'GameState(msg: $msg)';
+  return 'GameState(msg: $msg, currentLevel: $currentLevel)';
 }
 
 
@@ -232,7 +304,7 @@ abstract mixin class $GameStateCopyWith<$Res>  {
   factory $GameStateCopyWith(GameState value, $Res Function(GameState) _then) = _$GameStateCopyWithImpl;
 @useResult
 $Res call({
- String msg
+ String msg, MazeLevel? currentLevel
 });
 
 
@@ -249,10 +321,11 @@ class _$GameStateCopyWithImpl<$Res>
 
 /// Create a copy of GameState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? msg = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? msg = null,Object? currentLevel = freezed,}) {
   return _then(GameState(
 msg: null == msg ? _self.msg : msg // ignore: cast_nullable_to_non_nullable
-as String,
+as String,currentLevel: freezed == currentLevel ? _self.currentLevel : currentLevel // ignore: cast_nullable_to_non_nullable
+as MazeLevel?,
   ));
 }
 
@@ -334,10 +407,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String msg)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String msg,  MazeLevel? currentLevel)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _GameState() when $default != null:
-return $default(_that.msg);case _:
+return $default(_that.msg,_that.currentLevel);case _:
   return orElse();
 
 }
@@ -355,10 +428,10 @@ return $default(_that.msg);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String msg)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String msg,  MazeLevel? currentLevel)  $default,) {final _that = this;
 switch (_that) {
 case _GameState():
-return $default(_that.msg);}
+return $default(_that.msg,_that.currentLevel);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -372,10 +445,10 @@ return $default(_that.msg);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String msg)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String msg,  MazeLevel? currentLevel)?  $default,) {final _that = this;
 switch (_that) {
 case _GameState() when $default != null:
-return $default(_that.msg);case _:
+return $default(_that.msg,_that.currentLevel);case _:
   return null;
 
 }
@@ -387,10 +460,11 @@ return $default(_that.msg);case _:
 
 
 class _GameState extends GameState {
-  const _GameState({this.msg = 'hello'}): super._();
+  const _GameState({this.msg = 'hello', this.currentLevel}): super._();
   
 
 @override@JsonKey() final  String msg;
+@override final  MazeLevel? currentLevel;
 
 /// Create a copy of GameState
 /// with the given fields replaced by the non-null parameter values.
@@ -402,16 +476,16 @@ _$GameStateCopyWith<_GameState> get copyWith => __$GameStateCopyWithImpl<_GameSt
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GameState&&(identical(other.msg, msg) || other.msg == msg));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GameState&&(identical(other.msg, msg) || other.msg == msg)&&(identical(other.currentLevel, currentLevel) || other.currentLevel == currentLevel));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,msg);
+int get hashCode => Object.hash(runtimeType,msg,currentLevel);
 
 @override
 String toString() {
-  return 'GameState(msg: $msg)';
+  return 'GameState(msg: $msg, currentLevel: $currentLevel)';
 }
 
 
@@ -422,7 +496,7 @@ abstract mixin class _$GameStateCopyWith<$Res> implements $GameStateCopyWith<$Re
   factory _$GameStateCopyWith(_GameState value, $Res Function(_GameState) _then) = __$GameStateCopyWithImpl;
 @override @useResult
 $Res call({
- String msg
+ String msg, MazeLevel? currentLevel
 });
 
 
@@ -439,10 +513,11 @@ class __$GameStateCopyWithImpl<$Res>
 
 /// Create a copy of GameState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? msg = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? msg = null,Object? currentLevel = freezed,}) {
   return _then(_GameState(
 msg: null == msg ? _self.msg : msg // ignore: cast_nullable_to_non_nullable
-as String,
+as String,currentLevel: freezed == currentLevel ? _self.currentLevel : currentLevel // ignore: cast_nullable_to_non_nullable
+as MazeLevel?,
   ));
 }
 

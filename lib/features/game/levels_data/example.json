@@ -1,19 +1,21 @@
 {
   "id": "level_01",
-  "rows": 6,
-  "cols": 6,
+  "rows": 8,
+  "cols": 8,
   "cell_walls": [
-    ["N,W", "N",   "N",   "N",   "N",   "N,E"],
-    ["W",   "S,E", "N,W", "N,E", "W",   "E"],
-    ["W",   "N",   "S,E", "W",   "S",   "E"],
-    ["W",   "S",   "N",   "N,E", "N,W", "E"],
-    ["W",   "N,E", "W,S", "S,E", "W",   "E"],
-    ["S,W", "S",   "N,S", "N,S", "S",   "S,E"]
+    ["N,S,W", "N,S"  , "N,S"  , "N,E"  , "N,W"  , "N,S"  , "N,S"  , "N,E"],
+    ["N,W"  , "N"    , "N,E,S", "E,W"  , "S,W"  , "N,S"  , "N,E"  , "E,W"],
+    ["E,S,W", "S,W"  , "N,E"  , "E,W"  , "N,W"  , "N,S"  , "E,S"  , "E,W"],
+    ["N,W"  , "N,S"  , "E,S"  , "S,W"  , "E,S"  , "N,W"  , "N,E,S", "E,W"],
+    ["W"    , "N,S"  , "N,E"  , "N,W"  , "N,E"  , "W"    , "N,S"  , "E,S"],
+    ["S,W"  , "N,E"  , "S,W"  , "E,S"  , "E,W"  , "E,W"  , "N,W"  , "N,E,S"],
+    ["N,E,W", "E,W"  , "N,W"  , "N,E"  , "S,W"  , "E,S"  , "S,W"  , "N,E"],
+    ["S,W"  , "S"    , "E,S"  , "S,W"  , "N,S"  , "N,S"  , "N,S"  , "E,S"]
   ],
   "ball_start": { "row": 0, "col": 0 },
   "targets": [
-    { "row": 1, "col": 3 },
-    { "row": 3, "col": 1 }
+    { "row": 1, "col": 6 },
+    { "row": 6, "col": 1 }
   ],
-  "goal": { "row": 4, "col": 5 }
+  "goal": { "row": 7, "col": 7 }
 }

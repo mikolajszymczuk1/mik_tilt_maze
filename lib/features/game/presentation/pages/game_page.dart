@@ -30,10 +30,18 @@ class _GamePageState extends State<GamePage> {
           }
 
           return Center(
-            child: SizedBox(
+            child: Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.black),
+                borderRadius: BorderRadius.circular(24),
+              ),
               width: 345,
               height: 345,
-              child: GameWidget(game: MazeGame(level: level)),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(16),
+                child: GameWidget(game: MazeGame(level: level)),
+              ),
             ),
           );
         },

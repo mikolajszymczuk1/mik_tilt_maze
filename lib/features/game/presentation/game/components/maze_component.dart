@@ -1,19 +1,46 @@
 import 'dart:math' as math;
 import 'dart:ui';
 
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:mik_tilt_maze/features/game/domain/models/maze_level.dart';
+import 'package:mik_tilt_maze/features/game/domain/models/wall_segment.dart';
+import 'package:mik_tilt_maze/features/game/domain/services/i_wall_segment_builder_service.dart';
+import 'package:mik_tilt_maze/features/game/infrastructure/services/wall_segment_builder_service.dart';
+import 'package:mik_tilt_maze/features/game/presentation/game/components/player_component.dart';
 
 class MazeComponent extends PositionComponent {
   final MazeLevel level;
   late double cellSize;
 
-  double _testSquareX = 0;
-  double _testSquareSpeed = 80;
+  static const double wallThicknessRatio = 0.08;
+  static const double _outerCornerRadius = 16;
 
-  final Paint _testPaint = Paint()..color = const Color(0xFFE53E3E);
+  final IWallSegmentBuilderService _wallSegmentBuilder =
+      WallSegmentBuilderService();
+  late final List<WallSegment> _wallSegments = _wallSegmentBuilder.build(level);
+  final List<RectangleHitbox> _wallHitboxes = [];
+  final List<Rect> _wallRects = [];
+
+  final PlayerComponent player = PlayerComponent();
+  bool _playerPlaced = false;
 
   MazeComponent({required this.level});
+
+  List<Rect> get wallRects => _wallRects;
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+
+    for (final _ in _wallSegments) {
+      final hitbox = RectangleHitbox(collisionType: CollisionType.passive);
+      _wallHitboxes.add(hitbox);
+      await add(hitbox);
+    }
+
+    await add(player);
+  }
 
   @override
   void onGameResize(Vector2 size) {
@@ -26,20 +53,100 @@ class MazeComponent extends PositionComponent {
 
     this.size = Vector2(mazeWidth, mazeHeight);
     position = Vector2((size.x - mazeWidth) / 2, (size.y - mazeHeight) / 2);
+
+    _layoutWallHitboxes();
+    _layoutPlayer();
   }
 
-  @override
-  void update(double dt) {
-    super.update(dt);
+  void _layoutPlayer() {
+    if (_playerPlaced) return;
 
-    _testSquareX += _testSquareSpeed * dt;
-    if (_testSquareX + 40 > size.x || _testSquareX < 0) {
-      _testSquareSpeed = -_testSquareSpeed;
+    player.position = Vector2(
+      (level.ballStart.col + 0.5) * cellSize,
+      (level.ballStart.row + 0.5) * cellSize,
+    );
+    _playerPlaced = true;
+  }
+
+  void _layoutWallHitboxes() {
+    if (_wallHitboxes.isEmpty) return;
+
+    final wallThickness = cellSize * wallThicknessRatio;
+    _wallRects.clear();
+
+    for (var i = 0; i < _wallSegments.length; i++) {
+      final segment = _wallSegments[i];
+      final hitbox = _wallHitboxes[i];
+      final length = (segment.end - segment.start) * cellSize + wallThickness;
+
+      final Vector2 hitboxPosition;
+      final Vector2 hitboxSize;
+      if (segment.horizontal) {
+        hitboxPosition = Vector2(
+          segment.start * cellSize - wallThickness / 2,
+          segment.line * cellSize - wallThickness / 2,
+        );
+        hitboxSize = Vector2(length, wallThickness);
+      } else {
+        hitboxPosition = Vector2(
+          segment.line * cellSize - wallThickness / 2,
+          segment.start * cellSize - wallThickness / 2,
+        );
+        hitboxSize = Vector2(wallThickness, length);
+      }
+
+      hitbox
+        ..position = hitboxPosition
+        ..size = hitboxSize;
+      _wallRects.add(
+        Rect.fromLTWH(
+          hitboxPosition.x,
+          hitboxPosition.y,
+          hitboxSize.x,
+          hitboxSize.y,
+        ),
+      );
     }
   }
 
   @override
   void render(Canvas canvas) {
-    canvas.drawRect(Rect.fromLTWH(_testSquareX, 20, 40, 40), _testPaint);
+    final wallThickness = cellSize * wallThicknessRatio;
+
+    final paint = Paint()
+      ..color = const Color.fromARGB(255, 255, 0, 0)
+      ..strokeWidth = wallThickness
+      ..strokeCap = StrokeCap.round
+      ..style = PaintingStyle.stroke;
+
+    final inset = wallThickness / 2;
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromLTWH(
+          inset,
+          inset,
+          size.x - wallThickness,
+          size.y - wallThickness,
+        ),
+        const Radius.circular(_outerCornerRadius),
+      ),
+      paint,
+    );
+
+    for (var r = 0; r < level.rows; r++) {
+      for (var c = 0; c < level.cols; c++) {
+        final cell = level.grid[r][c];
+        final x = c * cellSize;
+        final y = r * cellSize;
+
+        if (cell.wallN && r > 0) {
+          canvas.drawLine(Offset(x, y), Offset(x + cellSize, y), paint);
+        }
+
+        if (cell.wallW && c > 0) {
+          canvas.drawLine(Offset(x, y), Offset(x, y + cellSize), paint);
+        }
+      }
+    }
   }
 }

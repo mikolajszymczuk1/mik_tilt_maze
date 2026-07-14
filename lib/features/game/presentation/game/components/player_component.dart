@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'dart:ui';
 
 import 'package:flame/collisions.dart';
@@ -6,8 +7,12 @@ import 'package:mik_tilt_maze/features/game/presentation/game/core/maze_game.dar
 
 class PlayerComponent extends PositionComponent
     with CollisionCallbacks, HasGameReference<MazeGame> {
-  static const double _speed = 220;
   static const double _radius = 12;
+  static const double _acceleration = 1300;
+  static const double _friction = 0.12;
+  static const double _maxSpeed = 300;
+
+  final Vector2 _velocity = Vector2.zero();
 
   PlayerComponent()
     : super(size: Vector2.all(_radius * 2), anchor: Anchor.center);
@@ -22,19 +27,32 @@ class PlayerComponent extends PositionComponent
   void update(double dt) {
     super.update(dt);
 
-    final direction = game.dragDirection;
-    if (direction.isZero()) return;
+    final tilt = game.tiltVector;
+    _velocity.add(tilt * _acceleration * dt);
 
-    final delta = direction * _speed * dt;
+    final frictionFactor = math.pow(_friction, dt).toDouble();
+    _velocity.scale(frictionFactor);
 
-    _tryMove(Vector2(delta.x, 0));
-    _tryMove(Vector2(0, delta.y));
+    if (_velocity.length > _maxSpeed) {
+      _velocity.scaleTo(_maxSpeed);
+    }
+
+    if (_velocity.isZero()) return;
+
+    final delta = _velocity * dt;
+
+    _tryMove(Vector2(delta.x, 0), axisX: true);
+    _tryMove(Vector2(0, delta.y), axisX: false);
   }
 
-  void _tryMove(Vector2 delta) {
+  void _tryMove(Vector2 delta, {required bool axisX}) {
     final candidate = position + delta;
     if (!_collidesAt(candidate)) {
       position.setFrom(candidate);
+    } else if (axisX) {
+      _velocity.x = 0;
+    } else {
+      _velocity.y = 0;
     }
   }
 

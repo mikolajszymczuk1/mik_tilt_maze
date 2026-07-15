@@ -8,12 +8,13 @@ import 'package:mik_tilt_maze/features/game/domain/models/wall_segment.dart';
 import 'package:mik_tilt_maze/features/game/domain/services/i_wall_segment_builder_service.dart';
 import 'package:mik_tilt_maze/features/game/infrastructure/services/wall_segment_builder_service.dart';
 import 'package:mik_tilt_maze/features/game/presentation/game/components/player_component.dart';
+import 'package:mik_tilt_maze/shared/theme/app_colors.dart';
 
 class MazeComponent extends PositionComponent {
   final MazeLevel level;
   late double cellSize;
 
-  static const double wallThicknessRatio = 0.08;
+  static const double wallThicknessRatio = 0.1;
   static const double _outerCornerRadius = 16;
 
   final IWallSegmentBuilderService _wallSegmentBuilder =
@@ -114,7 +115,7 @@ class MazeComponent extends PositionComponent {
     final wallThickness = cellSize * wallThicknessRatio;
 
     final paint = Paint()
-      ..color = const Color.fromARGB(255, 255, 0, 0)
+      ..color = AppColors.textPrimary
       ..strokeWidth = wallThickness
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;

@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:mik_tilt_maze/features/game/presentation/game/core/maze_game.dart';
+import 'package:mik_tilt_maze/shared/theme/app_colors.dart';
 
 class PlayerComponent extends PositionComponent
     with CollisionCallbacks, HasGameReference<MazeGame> {
@@ -76,7 +77,7 @@ class PlayerComponent extends PositionComponent
   @override
   void render(Canvas canvas) {
     final radius = size.x / 2;
-    final paint = Paint()..color = const Color.fromARGB(255, 13, 255, 74);
+    final paint = Paint()..color = AppColors.accentPurple;
     canvas.drawCircle(Offset(radius, radius), radius, paint);
   }
 }

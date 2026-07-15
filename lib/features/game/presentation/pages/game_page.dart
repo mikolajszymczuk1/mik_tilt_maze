@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mik_tilt_maze/features/game/bloc/game_bloc.dart';
 import 'package:mik_tilt_maze/features/game/presentation/game/core/maze_game.dart';
+import 'package:mik_tilt_maze/shared/extensions/context_theme_extension.dart';
 
 class GamePage extends StatefulWidget {
   const GamePage({super.key});
@@ -21,6 +22,7 @@ class _GamePageState extends State<GamePage> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
+    backgroundColor: context.colors.surface0,
     body: SafeArea(
       child: BlocBuilder<GameBloc, GameState>(
         builder: (context, gameState) {
@@ -33,7 +35,8 @@ class _GamePageState extends State<GamePage> {
             child: Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                border: Border.all(color: Colors.black),
+                color: context.colors.accentLight,
+                border: Border.all(color: context.colors.surface1),
                 borderRadius: BorderRadius.circular(24),
               ),
               width: 345,

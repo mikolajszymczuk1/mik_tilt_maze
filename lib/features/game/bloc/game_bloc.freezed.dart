@@ -120,11 +120,11 @@ return loadLevel(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  something,TResult Function( String levelName)?  loadLevel,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  something,TResult Function( String mode,  String levelName)?  loadLevel,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Something() when something != null:
 return something();case _LoadLevel() when loadLevel != null:
-return loadLevel(_that.levelName);case _:
+return loadLevel(_that.mode,_that.levelName);case _:
   return orElse();
 
 }
@@ -142,11 +142,11 @@ return loadLevel(_that.levelName);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  something,required TResult Function( String levelName)  loadLevel,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  something,required TResult Function( String mode,  String levelName)  loadLevel,}) {final _that = this;
 switch (_that) {
 case _Something():
 return something();case _LoadLevel():
-return loadLevel(_that.levelName);}
+return loadLevel(_that.mode,_that.levelName);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -160,11 +160,11 @@ return loadLevel(_that.levelName);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  something,TResult? Function( String levelName)?  loadLevel,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  something,TResult? Function( String mode,  String levelName)?  loadLevel,}) {final _that = this;
 switch (_that) {
 case _Something() when something != null:
 return something();case _LoadLevel() when loadLevel != null:
-return loadLevel(_that.levelName);case _:
+return loadLevel(_that.mode,_that.levelName);case _:
   return null;
 
 }
@@ -208,9 +208,10 @@ String toString() {
 
 
 class _LoadLevel implements GameEvent {
-  const _LoadLevel(this.levelName);
+  const _LoadLevel(this.mode, this.levelName);
   
 
+ final  String mode;
  final  String levelName;
 
 /// Create a copy of GameEvent
@@ -223,16 +224,16 @@ _$LoadLevelCopyWith<_LoadLevel> get copyWith => __$LoadLevelCopyWithImpl<_LoadLe
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoadLevel&&(identical(other.levelName, levelName) || other.levelName == levelName));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoadLevel&&(identical(other.mode, mode) || other.mode == mode)&&(identical(other.levelName, levelName) || other.levelName == levelName));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,levelName);
+int get hashCode => Object.hash(runtimeType,mode,levelName);
 
 @override
 String toString() {
-  return 'GameEvent.loadLevel(levelName: $levelName)';
+  return 'GameEvent.loadLevel(mode: $mode, levelName: $levelName)';
 }
 
 
@@ -243,7 +244,7 @@ abstract mixin class _$LoadLevelCopyWith<$Res> implements $GameEventCopyWith<$Re
   factory _$LoadLevelCopyWith(_LoadLevel value, $Res Function(_LoadLevel) _then) = __$LoadLevelCopyWithImpl;
 @useResult
 $Res call({
- String levelName
+ String mode, String levelName
 });
 
 
@@ -260,9 +261,10 @@ class __$LoadLevelCopyWithImpl<$Res>
 
 /// Create a copy of GameEvent
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? levelName = null,}) {
+@pragma('vm:prefer-inline') $Res call({Object? mode = null,Object? levelName = null,}) {
   return _then(_LoadLevel(
-null == levelName ? _self.levelName : levelName // ignore: cast_nullable_to_non_nullable
+null == mode ? _self.mode : mode // ignore: cast_nullable_to_non_nullable
+as String,null == levelName ? _self.levelName : levelName // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }

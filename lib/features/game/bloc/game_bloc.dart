@@ -29,7 +29,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   Future<void> _onLoadLevel(_LoadLevel event, Emitter<GameState> emit) async {
     try {
       final jsonString = await rootBundle.loadString(
-        'lib/features/game/levels_data/${event.levelName}.json',
+        'lib/features/game/levels_data/${event.mode}/${event.levelName}.json',
       );
       final jsonData = jsonDecode(jsonString) as Map<String, dynamic>;
       final level = MazeLevel.fromJson(jsonData);

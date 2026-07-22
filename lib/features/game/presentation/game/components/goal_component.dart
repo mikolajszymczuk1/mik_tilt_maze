@@ -5,7 +5,8 @@ import 'package:mik_tilt_maze/shared/theme/app_colors.dart';
 class GoalComponent extends PulsingMarkerComponent {
   final GridPos gridPos;
 
-  GoalComponent({required this.gridPos}) : super(color: AppColors.accentRed);
+  GoalComponent({required this.gridPos})
+    : super(color: AppColors.accentRed, hitboxRadius: 1);
 
   @override
   void onPlayerReached() {

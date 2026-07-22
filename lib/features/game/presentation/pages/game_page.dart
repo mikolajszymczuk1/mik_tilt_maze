@@ -7,11 +7,11 @@ import 'package:mik_tilt_maze/features/game/bloc/game_bloc.dart';
 import 'package:mik_tilt_maze/features/game/domain/models/grid_pos.dart';
 import 'package:mik_tilt_maze/features/game/presentation/game/core/maze_game.dart';
 import 'package:mik_tilt_maze/features/menu/presentation/widgets/information_toast/information_toast_ui.dart';
+import 'package:mik_tilt_maze/features/menu/presentation/widgets/stars_counter/stars_counter_ui.dart';
 import 'package:mik_tilt_maze/shared/extensions/context_theme_extension.dart';
 import 'package:mik_tilt_maze/shared/presentation/ui/buttons/base_icon_button.dart';
 import 'package:mik_tilt_maze/shared/presentation/ui/icons/base_icon.dart';
 import 'package:mik_tilt_maze/shared/presentation/ui/nav/base_top_navigation_bar.dart';
-import 'package:mik_tilt_maze/shared/presentation/ui/text/base_text.dart';
 
 class GamePage extends StatefulWidget {
   final String levelId;
@@ -46,13 +46,12 @@ class _GamePageState extends State<GamePage> {
           icon: BaseIconName.pause,
           onPressed: () => context.pop(),
         ),
-        Gap(context.spacing.xs),
-        const Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
+        const Spacer(),
+        Row(
           children: [
-            BaseText('Level 1'),
-            BaseText('Not completed', type: BaseTextType.tiny),
+            const InformationToastUi(value: '00:24', icon: BaseIconName.time),
+            Gap(context.spacing.md),
+            const StarsCounterUi(value: '2 / 3'),
           ],
         ),
       ],

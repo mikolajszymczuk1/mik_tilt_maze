@@ -11,6 +11,7 @@ abstract class PulsingMarkerComponent extends PositionComponent
 
   final Color color;
   final double dotRadius;
+  final double hitboxRadius;
   final double pulseMaxRadius;
   final double pulseDuration;
 
@@ -20,15 +21,20 @@ abstract class PulsingMarkerComponent extends PositionComponent
   PulsingMarkerComponent({
     required this.color,
     this.dotRadius = 6,
+    double? hitboxRadius,
     this.pulseMaxRadius = 18,
     this.pulseDuration = 1.6,
-  }) : super(size: Vector2.all(pulseMaxRadius * 2), anchor: Anchor.center);
+  }) : hitboxRadius = hitboxRadius ?? dotRadius,
+       super(size: Vector2.all(pulseMaxRadius * 2), anchor: Anchor.center);
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
     await add(
-      CircleHitbox(radius: dotRadius, collisionType: CollisionType.passive),
+      CircleHitbox(
+        radius: hitboxRadius,
+        collisionType: CollisionType.passive,
+      ),
     );
   }
 

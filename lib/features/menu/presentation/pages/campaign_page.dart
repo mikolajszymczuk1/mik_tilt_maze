@@ -79,7 +79,7 @@ class _CampaignPageState extends State<CampaignPage> {
                       return LevelTileUi(
                         levelNumber: levelNumber,
                         isLocked: false,
-                        stars: 0,
+                        stars: 2,
                         onTap: () => context.pushNamed(
                           'game',
                           pathParameters: {'level_id': levelId},

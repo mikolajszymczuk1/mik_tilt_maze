@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mik_tilt_maze/features/game/bloc/game_bloc.dart';
+import 'package:mik_tilt_maze/features/game/domain/models/grid_pos.dart';
 import 'package:mik_tilt_maze/features/game/presentation/game/core/maze_game.dart';
 import 'package:mik_tilt_maze/features/menu/presentation/widgets/information_toast/information_toast_ui.dart';
 import 'package:mik_tilt_maze/shared/extensions/context_theme_extension.dart';
@@ -22,6 +23,14 @@ class GamePage extends StatefulWidget {
 }
 
 class _GamePageState extends State<GamePage> {
+  void _handleTargetCollected(GridPos pos) {
+    print('Target collected');
+  }
+
+  void _handleGoalReached() {
+    print('Goal reached');
+  }
+
   @override
   void initState() {
     super.initState();
@@ -74,7 +83,13 @@ class _GamePageState extends State<GamePage> {
                   height: mazeSize,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(context.spacing.md),
-                    child: GameWidget(game: MazeGame(level: level)),
+                    child: GameWidget(
+                      game: MazeGame(
+                        level: level,
+                        onTargetCollected: _handleTargetCollected,
+                        onGoalReached: _handleGoalReached,
+                      ),
+                    ),
                   ),
                 ),
                 const Spacer(),

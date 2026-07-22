@@ -7,7 +7,9 @@ import 'package:mik_tilt_maze/features/game/domain/models/maze_level.dart';
 import 'package:mik_tilt_maze/features/game/domain/models/wall_segment.dart';
 import 'package:mik_tilt_maze/features/game/domain/services/i_wall_segment_builder_service.dart';
 import 'package:mik_tilt_maze/features/game/infrastructure/services/wall_segment_builder_service.dart';
+import 'package:mik_tilt_maze/features/game/presentation/game/components/goal_component.dart';
 import 'package:mik_tilt_maze/features/game/presentation/game/components/player_component.dart';
+import 'package:mik_tilt_maze/features/game/presentation/game/components/target_component.dart';
 import 'package:mik_tilt_maze/shared/theme/app_colors.dart';
 
 class MazeComponent extends PositionComponent {
@@ -19,12 +21,24 @@ class MazeComponent extends PositionComponent {
 
   final IWallSegmentBuilderService _wallSegmentBuilder =
       WallSegmentBuilderService();
+
   late final List<WallSegment> _wallSegments = _wallSegmentBuilder.build(level);
+
   final List<RectangleHitbox> _wallHitboxes = [];
+
   final List<Rect> _wallRects = [];
 
-  final PlayerComponent player = PlayerComponent();
+  final PlayerComponent _player = PlayerComponent();
+
   bool _playerPlaced = false;
+
+  late final List<TargetComponent> _targets = level.targets
+      .map((pos) => TargetComponent(gridPos: pos))
+      .toList();
+
+  late final GoalComponent _goal = GoalComponent(gridPos: level.goal);
+
+  bool _targetsAndGoalPlaced = false;
 
   MazeComponent({required this.level});
 
@@ -40,7 +54,9 @@ class MazeComponent extends PositionComponent {
       await add(hitbox);
     }
 
-    await add(player);
+    await addAll(_targets);
+    await add(_goal);
+    await add(_player);
   }
 
   @override
@@ -57,16 +73,34 @@ class MazeComponent extends PositionComponent {
 
     _layoutWallHitboxes();
     _layoutPlayer();
+    _layoutTargetsAndGoal();
   }
 
   void _layoutPlayer() {
     if (_playerPlaced) return;
 
-    player.position = Vector2(
+    _player.position = Vector2(
       (level.ballStart.col + 0.5) * cellSize,
       (level.ballStart.row + 0.5) * cellSize,
     );
     _playerPlaced = true;
+  }
+
+  void _layoutTargetsAndGoal() {
+    if (_targetsAndGoalPlaced) return;
+
+    for (final target in _targets) {
+      target.position = Vector2(
+        (target.gridPos.col + 0.5) * cellSize,
+        (target.gridPos.row + 0.5) * cellSize,
+      );
+    }
+
+    _goal.position = Vector2(
+      (level.goal.col + 0.5) * cellSize,
+      (level.goal.row + 0.5) * cellSize,
+    );
+    _targetsAndGoalPlaced = true;
   }
 
   void _layoutWallHitboxes() {

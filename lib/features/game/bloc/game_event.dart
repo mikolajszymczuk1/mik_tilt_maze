@@ -4,5 +4,5 @@ part of 'game_bloc.dart';
 sealed class GameEvent with _$GameEvent {
   const factory GameEvent.something() = _Something;
 
-  const factory GameEvent.loadLevel(String mode, String levelName) = _LoadLevel;
+  const factory GameEvent.loadLevel(String levelName) = _LoadLevel;
 }

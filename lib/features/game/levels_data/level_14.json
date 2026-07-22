@@ -1,55 +1,55 @@
 {
-  "id": "easy_09",
+  "id": "level_14",
   "rows": 6,
   "cols": 6,
   "cell_walls": [
     [
+      "N,E,W",
       "N,W",
-      "N",
       "N,S",
-      "N,E",
-      "N,W",
+      "N,S",
+      "N,S",
       "N,E"
     ],
     [
       "E,W",
       "E,W",
       "N,W",
-      "E,S",
-      "E,W",
-      "E,W"
-    ],
-    [
-      "S,W",
-      "E,S",
-      "S,W",
-      "N,S",
-      "E,S",
-      "E,W"
-    ],
-    [
-      "N,W",
-      "N,S",
-      "N,S",
-      "N,E",
+      "N,E,S",
       "N,W",
       "E,S"
     ],
     [
-      "W",
-      "N,S",
-      "N,E",
-      "E,S,W",
+      "S,W",
+      "E,S",
       "E,W",
+      "N,W",
+      "E,S",
       "N,E,W"
     ],
     [
-      "S,W",
-      "N,E,S",
+      "N,W",
+      "N",
+      "E",
+      "E,W",
+      "N,S,W",
+      "E"
+    ],
+    [
+      "E,W",
+      "E,W",
+      "E,S,W",
+      "E,W",
+      "N,W",
+      "E"
+    ],
+    [
+      "E,S,W",
       "S,W",
       "N,S",
       "S",
-      "E,S"
+      "E,S",
+      "E,S,W"
     ]
   ],
   "ball_start": {
@@ -58,16 +58,16 @@
   },
   "targets": [
     {
-      "row": 1,
+      "row": 4,
       "col": 2
     },
     {
-      "row": 1,
-      "col": 4
+      "row": 5,
+      "col": 0
     },
     {
-      "row": 2,
-      "col": 5
+      "row": 1,
+      "col": 3
     }
   ],
   "goal": {

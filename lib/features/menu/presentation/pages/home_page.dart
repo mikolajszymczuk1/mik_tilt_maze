@@ -10,7 +10,7 @@ class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   void _goToGame(BuildContext context) {
-    context.pushNamed('game');
+    context.pushNamed('game', pathParameters: {'level_id': 'level_1'});
   }
 
   void _goToCampaign(BuildContext context) {

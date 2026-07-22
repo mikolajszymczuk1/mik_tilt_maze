@@ -28,7 +28,7 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i382.ExampleCommandHandler(),
     );
     gh.factory<_i306.GameBloc>(() => _i306.GameBloc());
-    gh.factory<_i504.MenuBloc>(() => _i504.MenuBloc());
+    gh.lazySingleton<_i504.MenuBloc>(() => _i504.MenuBloc());
     return this;
   }
 }

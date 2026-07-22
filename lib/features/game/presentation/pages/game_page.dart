@@ -13,7 +13,9 @@ import 'package:mik_tilt_maze/shared/presentation/ui/nav/base_top_navigation_bar
 import 'package:mik_tilt_maze/shared/presentation/ui/text/base_text.dart';
 
 class GamePage extends StatefulWidget {
-  const GamePage({super.key});
+  final String levelId;
+
+  const GamePage({super.key, required this.levelId});
 
   @override
   State<GamePage> createState() => _GamePageState();
@@ -24,7 +26,7 @@ class _GamePageState extends State<GamePage> {
   void initState() {
     super.initState();
     context.read<GameBloc>().add(const GameEvent.something());
-    context.read<GameBloc>().add(const GameEvent.loadLevel('easy', 'easy_01'));
+    context.read<GameBloc>().add(GameEvent.loadLevel(widget.levelId));
   }
 
   @override

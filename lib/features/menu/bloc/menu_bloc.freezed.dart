@@ -42,9 +42,143 @@ $MenuEventCopyWith(MenuEvent _, $Res Function(MenuEvent) __);
 }
 
 
+/// Adds pattern-matching-related methods to [MenuEvent].
+extension MenuEventPatterns on MenuEvent {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _LoadLevelsProgress value)?  loadLevelsProgress,TResult Function( _LoadLevelsMetadata value)?  loadLevelsMetadata,required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _LoadLevelsProgress() when loadLevelsProgress != null:
+return loadLevelsProgress(_that);case _LoadLevelsMetadata() when loadLevelsMetadata != null:
+return loadLevelsMetadata(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _LoadLevelsProgress value)  loadLevelsProgress,required TResult Function( _LoadLevelsMetadata value)  loadLevelsMetadata,}){
+final _that = this;
+switch (_that) {
+case _LoadLevelsProgress():
+return loadLevelsProgress(_that);case _LoadLevelsMetadata():
+return loadLevelsMetadata(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _LoadLevelsProgress value)?  loadLevelsProgress,TResult? Function( _LoadLevelsMetadata value)?  loadLevelsMetadata,}){
+final _that = this;
+switch (_that) {
+case _LoadLevelsProgress() when loadLevelsProgress != null:
+return loadLevelsProgress(_that);case _LoadLevelsMetadata() when loadLevelsMetadata != null:
+return loadLevelsMetadata(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  loadLevelsProgress,TResult Function()?  loadLevelsMetadata,required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _LoadLevelsProgress() when loadLevelsProgress != null:
+return loadLevelsProgress();case _LoadLevelsMetadata() when loadLevelsMetadata != null:
+return loadLevelsMetadata();case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  loadLevelsProgress,required TResult Function()  loadLevelsMetadata,}) {final _that = this;
+switch (_that) {
+case _LoadLevelsProgress():
+return loadLevelsProgress();case _LoadLevelsMetadata():
+return loadLevelsMetadata();}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  loadLevelsProgress,TResult? Function()?  loadLevelsMetadata,}) {final _that = this;
+switch (_that) {
+case _LoadLevelsProgress() when loadLevelsProgress != null:
+return loadLevelsProgress();case _LoadLevelsMetadata() when loadLevelsMetadata != null:
+return loadLevelsMetadata();case _:
+  return null;
+
+}
+}
+
+}
 
 /// @nodoc
-mixin _$MenuState {
+
+
+class _LoadLevelsProgress implements MenuEvent {
+  const _LoadLevelsProgress();
+  
+
 
 
 
@@ -52,7 +186,7 @@ mixin _$MenuState {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is MenuState);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoadLevelsProgress);
 }
 
 
@@ -61,15 +195,105 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'MenuState()';
+  return 'MenuEvent.loadLevelsProgress()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class _LoadLevelsMetadata implements MenuEvent {
+  const _LoadLevelsMetadata();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoadLevelsMetadata);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'MenuEvent.loadLevelsMetadata()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+mixin _$MenuState {
+
+ List<String> get loadedLevelsIds;
+/// Create a copy of MenuState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$MenuStateCopyWith<MenuState> get copyWith => _$MenuStateCopyWithImpl<MenuState>(this as MenuState, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MenuState&&const DeepCollectionEquality().equals(other.loadedLevelsIds, loadedLevelsIds));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(loadedLevelsIds));
+
+@override
+String toString() {
+  return 'MenuState(loadedLevelsIds: $loadedLevelsIds)';
 }
 
 
 }
 
 /// @nodoc
-class $MenuStateCopyWith<$Res>  {
-$MenuStateCopyWith(MenuState _, $Res Function(MenuState) __);
+abstract mixin class $MenuStateCopyWith<$Res>  {
+  factory $MenuStateCopyWith(MenuState value, $Res Function(MenuState) _then) = _$MenuStateCopyWithImpl;
+@useResult
+$Res call({
+ List<String> loadedLevelsIds
+});
+
+
+
+
+}
+/// @nodoc
+class _$MenuStateCopyWithImpl<$Res>
+    implements $MenuStateCopyWith<$Res> {
+  _$MenuStateCopyWithImpl(this._self, this._then);
+
+  final MenuState _self;
+  final $Res Function(MenuState) _then;
+
+/// Create a copy of MenuState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? loadedLevelsIds = null,}) {
+  return _then(MenuState(
+loadedLevelsIds: null == loadedLevelsIds ? _self.loadedLevelsIds : loadedLevelsIds // ignore: cast_nullable_to_non_nullable
+as List<String>,
+  ));
+}
+
 }
 
 
@@ -148,10 +372,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function()?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<String> loadedLevelsIds)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _MenuState() when $default != null:
-return $default();case _:
+return $default(_that.loadedLevelsIds);case _:
   return orElse();
 
 }
@@ -169,10 +393,10 @@ return $default();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function()  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<String> loadedLevelsIds)  $default,) {final _that = this;
 switch (_that) {
 case _MenuState():
-return $default();}
+return $default(_that.loadedLevelsIds);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -186,10 +410,10 @@ return $default();}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function()?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<String> loadedLevelsIds)?  $default,) {final _that = this;
 switch (_that) {
 case _MenuState() when $default != null:
-return $default();case _:
+return $default(_that.loadedLevelsIds);case _:
   return null;
 
 }
@@ -201,32 +425,72 @@ return $default();case _:
 
 
 class _MenuState extends MenuState {
-  const _MenuState(): super._();
+  const _MenuState({ List<String> loadedLevelsIds = const []}): _loadedLevelsIds = loadedLevelsIds,super._();
   
 
+ final  List<String> _loadedLevelsIds;
+@override@JsonKey() List<String> get loadedLevelsIds {
+  if (_loadedLevelsIds is EqualUnmodifiableListView) return _loadedLevelsIds;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_loadedLevelsIds);
+}
 
 
+/// Create a copy of MenuState
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$MenuStateCopyWith<_MenuState> get copyWith => __$MenuStateCopyWithImpl<_MenuState>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MenuState);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MenuState&&const DeepCollectionEquality().equals(other._loadedLevelsIds, _loadedLevelsIds));
 }
 
 
 @override
-int get hashCode => runtimeType.hashCode;
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_loadedLevelsIds));
 
 @override
 String toString() {
-  return 'MenuState()';
+  return 'MenuState(loadedLevelsIds: $loadedLevelsIds)';
 }
 
 
 }
 
+/// @nodoc
+abstract mixin class _$MenuStateCopyWith<$Res> implements $MenuStateCopyWith<$Res> {
+  factory _$MenuStateCopyWith(_MenuState value, $Res Function(_MenuState) _then) = __$MenuStateCopyWithImpl;
+@override @useResult
+$Res call({
+ List<String> loadedLevelsIds
+});
 
 
+
+
+}
+/// @nodoc
+class __$MenuStateCopyWithImpl<$Res>
+    implements _$MenuStateCopyWith<$Res> {
+  __$MenuStateCopyWithImpl(this._self, this._then);
+
+  final _MenuState _self;
+  final $Res Function(_MenuState) _then;
+
+/// Create a copy of MenuState
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? loadedLevelsIds = null,}) {
+  return _then(_MenuState(
+loadedLevelsIds: null == loadedLevelsIds ? _self._loadedLevelsIds : loadedLevelsIds // ignore: cast_nullable_to_non_nullable
+as List<String>,
+  ));
+}
+
+
+}
 
 // dart format on

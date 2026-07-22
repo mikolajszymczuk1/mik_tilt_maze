@@ -1,53 +1,53 @@
 {
-  "id": "easy_04",
+  "id": "level_20",
   "rows": 6,
   "cols": 6,
   "cell_walls": [
     [
-      "N,W",
+      "N,S,W",
       "N,E",
       "N,W",
       "N,S",
-      "N",
-      "N,E"
+      "N,E",
+      "N,E,W"
     ],
     [
-      "W",
+      "N,W",
       "E,S",
       "S,W",
-      "N,E,S",
-      "W",
-      "E,S"
+      "N,E",
+      "S,W",
+      "E"
     ],
     [
       "E,W",
       "N,S,W",
       "N",
-      "N,E",
-      "S,W",
-      "N,E"
+      "E,S",
+      "N,E,W",
+      "E,W"
     ],
     [
       "S,W",
       "N,E",
-      "E,W",
       "E,W",
       "N,W",
-      "E"
+      "E",
+      "E,W"
     ],
     [
-      "N,E,W",
-      "S,W",
+      "N,W",
       "E,S",
-      "S,W",
-      "E,S",
+      "E,W",
+      "E,W",
+      "E,S,W",
       "E,W"
     ],
     [
       "S,W",
       "N,S",
-      "N,S",
-      "N,S",
+      "E,S",
+      "S,W",
       "N,S",
       "E,S"
     ]
@@ -58,12 +58,16 @@
   },
   "targets": [
     {
-      "row": 4,
-      "col": 2
+      "row": 0,
+      "col": 5
     },
     {
       "row": 4,
-      "col": 3
+      "col": 4
+    },
+    {
+      "row": 2,
+      "col": 4
     }
   ],
   "goal": {

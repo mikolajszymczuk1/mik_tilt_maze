@@ -6,9 +6,14 @@ import 'package:mik_tilt_maze/features/game/presentation/pages/game_page.dart';
 
 List<GoRoute> gameRoutes = [
   GoRoute(
-    path: '/game',
+    path: '/game/:level_id',
     name: 'game',
-    builder: (context, state) =>
-        BlocProvider(create: (_) => getIt<GameBloc>(), child: const GamePage()),
+    builder: (context, state) {
+      final String levelId = state.pathParameters['level_id']!;
+      return BlocProvider(
+        create: (_) => getIt<GameBloc>(),
+        child: GamePage(levelId: levelId),
+      );
+    },
   ),
 ];

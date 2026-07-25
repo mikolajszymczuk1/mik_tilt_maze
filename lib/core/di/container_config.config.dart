@@ -16,6 +16,7 @@ import '../../features/game/application/commands/example/example_command_handler
     as _i382;
 import '../../features/game/bloc/game_bloc.dart' as _i306;
 import '../../features/menu/bloc/menu_bloc.dart' as _i504;
+import '../../shared/infrastructure/database/database.dart' as _i264;
 
 extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
@@ -28,7 +29,10 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i382.ExampleCommandHandler(),
     );
     gh.factory<_i306.GameBloc>(() => _i306.GameBloc());
-    gh.lazySingleton<_i504.MenuBloc>(() => _i504.MenuBloc());
+    gh.factory<_i264.AppDatabase>(() => _i264.AppDatabase());
+    gh.lazySingleton<_i504.MenuBloc>(
+      () => _i504.MenuBloc(gh<_i264.AppDatabase>()),
+    );
     return this;
   }
 }

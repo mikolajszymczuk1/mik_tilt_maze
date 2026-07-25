@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mik_tilt_maze/features/game/bloc/game_bloc.dart';
 import 'package:mik_tilt_maze/features/game/domain/models/grid_pos.dart';
 import 'package:mik_tilt_maze/features/game/presentation/game/core/maze_game.dart';
+import 'package:mik_tilt_maze/features/menu/bloc/menu_bloc.dart';
 import 'package:mik_tilt_maze/features/menu/presentation/widgets/information_toast/information_toast_ui.dart';
 import 'package:mik_tilt_maze/features/menu/presentation/widgets/stars_counter/stars_counter_ui.dart';
 import 'package:mik_tilt_maze/shared/extensions/context_theme_extension.dart';
@@ -34,6 +35,12 @@ class _GamePageState extends State<GamePage> {
 
   void _handleGoalReached() {
     final gameState = context.read<GameBloc>().state;
+    context.read<MenuBloc>().add(
+      MenuEvent.saveCurrentLevelProgress(
+        gameState.currentLevel!.id,
+        gameState.stars,
+      ),
+    );
     context.goNamed(
       'score',
       extra: {'stars': gameState.stars, 'level_id': gameState.currentLevel?.id},

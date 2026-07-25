@@ -11,7 +11,9 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) => MultiBlocProvider(
     providers: [
       BlocProvider.value(
-        value: getIt<MenuBloc>()..add(const MenuEvent.loadLevelsMetadata()),
+        value: getIt<MenuBloc>()
+          ..add(const MenuEvent.loadLevelsMetadata())
+          ..add(const MenuEvent.loadLevelsProgress()),
       ),
     ],
     child: MaterialApp.router(

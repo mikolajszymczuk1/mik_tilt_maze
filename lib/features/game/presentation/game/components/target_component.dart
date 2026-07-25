@@ -1,4 +1,5 @@
 import 'package:mik_tilt_maze/features/game/domain/models/grid_pos.dart';
+import 'package:mik_tilt_maze/features/game/presentation/game/components/burst_effect_component.dart';
 import 'package:mik_tilt_maze/features/game/presentation/game/components/pulsing_marker_component.dart';
 import 'package:mik_tilt_maze/shared/theme/app_colors.dart';
 
@@ -13,6 +14,9 @@ class TargetComponent extends PulsingMarkerComponent {
     if (consumed) return;
     consumed = true;
     game.collectTarget(gridPos);
+    parent?.add(
+      BurstEffectComponent(position: position.clone(), colors: [color]),
+    );
     removeFromParent();
   }
 }

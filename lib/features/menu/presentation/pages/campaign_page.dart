@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mik_tilt_maze/features/menu/bloc/menu_bloc.dart';
+import 'package:mik_tilt_maze/features/menu/domain/models/level_progress.dart';
 import 'package:mik_tilt_maze/features/menu/presentation/widgets/level_tile/level_tile_ui.dart';
 import 'package:mik_tilt_maze/shared/extensions/context_theme_extension.dart';
 import 'package:mik_tilt_maze/shared/presentation/ui/buttons/base_icon_button.dart';
@@ -11,7 +12,9 @@ import 'package:mik_tilt_maze/shared/presentation/ui/nav/base_top_navigation_bar
 import 'package:mik_tilt_maze/shared/presentation/ui/text/base_text.dart';
 
 class CampaignPage extends StatefulWidget {
-  const CampaignPage({super.key});
+  final bool fromGame;
+
+  const CampaignPage({super.key, required this.fromGame});
 
   @override
   State<CampaignPage> createState() => _CampaignPageState();
@@ -34,7 +37,11 @@ class _CampaignPageState extends State<CampaignPage> {
     backgroundColor: context.colors.surface0,
     appBar: BaseTopNavigationBar(
       children: [
-        BaseIconButton(icon: BaseIconName.back, onPressed: () => context.pop()),
+        BaseIconButton(
+          icon: BaseIconName.back,
+          onPressed: () =>
+              widget.fromGame ? context.goNamed('home') : context.pop(),
+        ),
         Gap(context.spacing.xs),
         const Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -59,7 +66,7 @@ class _CampaignPageState extends State<CampaignPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 BaseText(
-                  '12 / 20 completed',
+                  '${menuState.completedLevelsCount} / ${menuState.loadedLevelsIds.length} completed',
                   type: BaseTextType.tiny,
                   color: context.colors.textPrimary.withValues(alpha: 0.8),
                 ),
@@ -76,10 +83,16 @@ class _CampaignPageState extends State<CampaignPage> {
                     itemBuilder: (context, index) {
                       final levelId = menuState.loadedLevelsIds[index];
                       final levelNumber = index + 1;
+                      final progressForLevel = menuState.progress.firstWhere(
+                        (element) => element.levelId == levelId,
+                        orElse: () => LevelProgress(levelId: '-1', stars: 0),
+                      );
                       return LevelTileUi(
                         levelNumber: levelNumber,
                         isLocked: false,
-                        stars: 2,
+                        stars: progressForLevel.levelId != '-1'
+                            ? progressForLevel.stars
+                            : 0,
                         onTap: () => context.pushNamed(
                           'game',
                           pathParameters: {'level_id': levelId},

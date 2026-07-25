@@ -1,5 +1,5 @@
 class LevelProgress {
-  final int levelId;
+  final String levelId;
   final int stars;
 
   LevelProgress({required this.levelId, required this.stars});

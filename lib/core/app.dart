@@ -9,7 +9,11 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => MultiBlocProvider(
-    providers: [BlocProvider.value(value: getIt<MenuBloc>())],
+    providers: [
+      BlocProvider.value(
+        value: getIt<MenuBloc>()..add(const MenuEvent.loadLevelsMetadata()),
+      ),
+    ],
     child: MaterialApp.router(
       title: 'Mik Tilt Maze',
       debugShowCheckedModeBanner: false,

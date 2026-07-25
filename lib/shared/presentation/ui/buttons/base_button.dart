@@ -12,6 +12,7 @@ class BaseButton extends StatefulWidget {
   final bool centerContent;
   final bool isHighlighted;
   final bool withoutIconContainer;
+  final bool textCenter;
 
   const BaseButton({
     super.key,
@@ -22,6 +23,7 @@ class BaseButton extends StatefulWidget {
     this.centerContent = false,
     this.isHighlighted = false,
     this.withoutIconContainer = false,
+    this.textCenter = false,
   });
 
   @override
@@ -78,6 +80,9 @@ class _BaseButtonState extends State<BaseButton>
                 : context.colors.accentPurple.withValues(alpha: 0.15),
           ),
           child: Row(
+            mainAxisAlignment: widget.textCenter
+                ? MainAxisAlignment.center
+                : MainAxisAlignment.start,
             children: [
               if (widget.icon != null)
                 Container(

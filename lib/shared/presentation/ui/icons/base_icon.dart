@@ -18,6 +18,10 @@ enum BaseIconName {
   starFull,
   time,
   back,
+  home,
+  rotate,
+  trophy,
+  heartCrashed,
 }
 
 List<BaseIconName> withOriginalColors = [];

@@ -239,7 +239,7 @@ String toString() {
 /// @nodoc
 mixin _$MenuState {
 
- List<String> get loadedLevelsIds;
+ List<String> get loadedLevelsIds; List<LevelProgress> get progress;
 /// Create a copy of MenuState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -250,16 +250,16 @@ $MenuStateCopyWith<MenuState> get copyWith => _$MenuStateCopyWithImpl<MenuState>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is MenuState&&const DeepCollectionEquality().equals(other.loadedLevelsIds, loadedLevelsIds));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MenuState&&const DeepCollectionEquality().equals(other.loadedLevelsIds, loadedLevelsIds)&&const DeepCollectionEquality().equals(other.progress, progress));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(loadedLevelsIds));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(loadedLevelsIds),const DeepCollectionEquality().hash(progress));
 
 @override
 String toString() {
-  return 'MenuState(loadedLevelsIds: $loadedLevelsIds)';
+  return 'MenuState(loadedLevelsIds: $loadedLevelsIds, progress: $progress)';
 }
 
 
@@ -270,7 +270,7 @@ abstract mixin class $MenuStateCopyWith<$Res>  {
   factory $MenuStateCopyWith(MenuState value, $Res Function(MenuState) _then) = _$MenuStateCopyWithImpl;
 @useResult
 $Res call({
- List<String> loadedLevelsIds
+ List<String> loadedLevelsIds, List<LevelProgress> progress
 });
 
 
@@ -287,10 +287,11 @@ class _$MenuStateCopyWithImpl<$Res>
 
 /// Create a copy of MenuState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? loadedLevelsIds = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? loadedLevelsIds = null,Object? progress = null,}) {
   return _then(MenuState(
 loadedLevelsIds: null == loadedLevelsIds ? _self.loadedLevelsIds : loadedLevelsIds // ignore: cast_nullable_to_non_nullable
-as List<String>,
+as List<String>,progress: null == progress ? _self.progress : progress // ignore: cast_nullable_to_non_nullable
+as List<LevelProgress>,
   ));
 }
 
@@ -372,10 +373,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<String> loadedLevelsIds)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<String> loadedLevelsIds,  List<LevelProgress> progress)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _MenuState() when $default != null:
-return $default(_that.loadedLevelsIds);case _:
+return $default(_that.loadedLevelsIds,_that.progress);case _:
   return orElse();
 
 }
@@ -393,10 +394,10 @@ return $default(_that.loadedLevelsIds);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<String> loadedLevelsIds)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<String> loadedLevelsIds,  List<LevelProgress> progress)  $default,) {final _that = this;
 switch (_that) {
 case _MenuState():
-return $default(_that.loadedLevelsIds);}
+return $default(_that.loadedLevelsIds,_that.progress);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -410,10 +411,10 @@ return $default(_that.loadedLevelsIds);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<String> loadedLevelsIds)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<String> loadedLevelsIds,  List<LevelProgress> progress)?  $default,) {final _that = this;
 switch (_that) {
 case _MenuState() when $default != null:
-return $default(_that.loadedLevelsIds);case _:
+return $default(_that.loadedLevelsIds,_that.progress);case _:
   return null;
 
 }
@@ -425,7 +426,7 @@ return $default(_that.loadedLevelsIds);case _:
 
 
 class _MenuState extends MenuState {
-  const _MenuState({ List<String> loadedLevelsIds = const []}): _loadedLevelsIds = loadedLevelsIds,super._();
+  const _MenuState({ List<String> loadedLevelsIds = const [],  List<LevelProgress> progress = const []}): _loadedLevelsIds = loadedLevelsIds,_progress = progress,super._();
   
 
  final  List<String> _loadedLevelsIds;
@@ -433,6 +434,13 @@ class _MenuState extends MenuState {
   if (_loadedLevelsIds is EqualUnmodifiableListView) return _loadedLevelsIds;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_loadedLevelsIds);
+}
+
+ final  List<LevelProgress> _progress;
+@override@JsonKey() List<LevelProgress> get progress {
+  if (_progress is EqualUnmodifiableListView) return _progress;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_progress);
 }
 
 
@@ -446,16 +454,16 @@ _$MenuStateCopyWith<_MenuState> get copyWith => __$MenuStateCopyWithImpl<_MenuSt
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MenuState&&const DeepCollectionEquality().equals(other._loadedLevelsIds, _loadedLevelsIds));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MenuState&&const DeepCollectionEquality().equals(other._loadedLevelsIds, _loadedLevelsIds)&&const DeepCollectionEquality().equals(other._progress, _progress));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_loadedLevelsIds));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_loadedLevelsIds),const DeepCollectionEquality().hash(_progress));
 
 @override
 String toString() {
-  return 'MenuState(loadedLevelsIds: $loadedLevelsIds)';
+  return 'MenuState(loadedLevelsIds: $loadedLevelsIds, progress: $progress)';
 }
 
 
@@ -466,7 +474,7 @@ abstract mixin class _$MenuStateCopyWith<$Res> implements $MenuStateCopyWith<$Re
   factory _$MenuStateCopyWith(_MenuState value, $Res Function(_MenuState) _then) = __$MenuStateCopyWithImpl;
 @override @useResult
 $Res call({
- List<String> loadedLevelsIds
+ List<String> loadedLevelsIds, List<LevelProgress> progress
 });
 
 
@@ -483,10 +491,11 @@ class __$MenuStateCopyWithImpl<$Res>
 
 /// Create a copy of MenuState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? loadedLevelsIds = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? loadedLevelsIds = null,Object? progress = null,}) {
   return _then(_MenuState(
 loadedLevelsIds: null == loadedLevelsIds ? _self._loadedLevelsIds : loadedLevelsIds // ignore: cast_nullable_to_non_nullable
-as List<String>,
+as List<String>,progress: null == progress ? _self._progress : progress // ignore: cast_nullable_to_non_nullable
+as List<LevelProgress>,
   ));
 }
 

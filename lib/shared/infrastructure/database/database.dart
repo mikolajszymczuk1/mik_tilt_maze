@@ -6,7 +6,7 @@ import 'package:path_provider/path_provider.dart';
 
 part 'database.g.dart';
 
-@injectable
+@singleton
 @DriftDatabase(tables: [LevelProgressTable])
 class AppDatabase extends _$AppDatabase {
   AppDatabase([@ignoreParam QueryExecutor? executor])

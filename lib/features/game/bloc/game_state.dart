@@ -7,7 +7,6 @@ sealed class GameState with _$GameState {
   const GameState._();
 
   const factory GameState({
-    @Default('hello') String msg,
     MazeLevel? currentLevel,
     @Default(0) int stars,
     @Default(GameBloc.timerDuration) int secondsLeft,

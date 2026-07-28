@@ -153,7 +153,6 @@ class _GamePageState extends State<GamePage> {
   @override
   void initState() {
     super.initState();
-    context.read<GameBloc>().add(const GameEvent.something());
     context.read<GameBloc>().add(GameEvent.loadLevel(widget.levelId));
     context.read<GameBloc>().add(const GameEvent.startTimer());
   }

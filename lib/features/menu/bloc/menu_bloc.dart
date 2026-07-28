@@ -1,22 +1,31 @@
-import 'package:drift/drift.dart' hide JsonKey;
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:mik_tilt_maze/features/menu/application/commands/save_current_level_progress/save_current_level_progress_command.dart';
+import 'package:mik_tilt_maze/features/menu/application/commands/save_current_level_progress/save_current_level_progress_command_handler.dart';
+import 'package:mik_tilt_maze/features/menu/application/queries/load_levels_metadata/load_levels_metadata_query.dart';
+import 'package:mik_tilt_maze/features/menu/application/queries/load_levels_metadata/load_levels_metadata_query_handler.dart';
+import 'package:mik_tilt_maze/features/menu/application/queries/load_levels_progress/load_levels_progress_query.dart';
+import 'package:mik_tilt_maze/features/menu/application/queries/load_levels_progress/load_levels_progress_query_handler.dart';
 import 'package:mik_tilt_maze/features/menu/domain/models/level_progress.dart';
-import 'package:mik_tilt_maze/shared/infrastructure/database/database.dart';
 
 part 'menu_bloc.freezed.dart';
 part 'menu_event.dart';
 part 'menu_state.dart';
 
-const _levelsAssetPath = 'lib/features/game/levels_data/';
-
 @lazySingleton
 class MenuBloc extends Bloc<MenuEvent, MenuState> {
-  final AppDatabase _database;
+  final LoadLevelsProgressQueryHandler _loadLevelsProgressQueryHandler;
+  final LoadLevelsMetadataQueryHandler _loadLevelsMetadataQueryHandler;
 
-  MenuBloc(this._database) : super(MenuState.initial()) {
+  final SaveCurrentLevelProgressCommandHandler
+  _saveCurrentLevelProgressCommandHandler;
+
+  MenuBloc(
+    this._loadLevelsProgressQueryHandler,
+    this._loadLevelsMetadataQueryHandler,
+    this._saveCurrentLevelProgressCommandHandler,
+  ) : super(MenuState.initial()) {
     on<_LoadLevelsProgress>(_onLoadLevelsProgress);
     on<_LoadLevelsMetadata>(_onLoadLevelsMetadata);
     on<_SaveCurrentLevelProgress>(_onSaveCurrentLevelProgress);
@@ -26,11 +35,9 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
     _LoadLevelsProgress event,
     Emitter<MenuState> emit,
   ) async {
-    final rows = await _database.select(_database.levelProgressTable).get();
-    final progress = rows
-        .map((row) => LevelProgress(levelId: row.id, stars: row.stars))
-        .toList();
-
+    final progress = await _loadLevelsProgressQueryHandler.handle(
+      LoadLevelsProgressQuery(),
+    );
     emit(state.copyWith(progress: progress));
   }
 
@@ -38,21 +45,9 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
     _LoadLevelsMetadata event,
     Emitter<MenuState> emit,
   ) async {
-    final manifest = await AssetManifest.loadFromAssetBundle(rootBundle);
-    final levelIds =
-        manifest
-            .listAssets()
-            .where(
-              (path) =>
-                  path.startsWith(_levelsAssetPath) && path.endsWith('.json'),
-            )
-            .map((path) => path.split('/').last.replaceAll('.json', ''))
-            .toList()
-          ..sort(
-            (a, b) => int.parse(
-              a.replaceFirst('level_', ''),
-            ).compareTo(int.parse(b.replaceFirst('level_', ''))),
-          );
+    final levelIds = await _loadLevelsMetadataQueryHandler.handle(
+      LoadLevelsMetadataQuery(),
+    );
 
     emit(state.copyWith(loadedLevelsIds: levelIds));
   }
@@ -61,28 +56,12 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
     _SaveCurrentLevelProgress event,
     Emitter<MenuState> emit,
   ) async {
-    for (final progress in state.progress) {
-      if (progress.levelId == event.levelId && event.stars <= progress.stars) {
-        return;
-      }
-    }
-
-    final progressToAdd = LevelProgress(
-      levelId: event.levelId,
-      stars: event.stars,
-    );
-
-    final updatedProgress = [
-      ...state.progress.where((progress) => progress.levelId != event.levelId),
-      progressToAdd,
-    ];
-
-    await _database
-        .into(_database.levelProgressTable)
-        .insertOnConflictUpdate(
-          LevelProgressTableCompanion.insert(
-            id: event.levelId,
-            stars: Value(event.stars),
+    final updatedProgress = await _saveCurrentLevelProgressCommandHandler
+        .handle(
+          SaveCurrentLevelProgressCommand(
+            progress: state.progress,
+            levelId: event.levelId,
+            stars: event.stars,
           ),
         );
 

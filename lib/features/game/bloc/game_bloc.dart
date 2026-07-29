@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:mik_tilt_maze/features/game/application/commands/generate_random_level/generate_random_level_command.dart';
+import 'package:mik_tilt_maze/features/game/application/commands/generate_random_level/generate_random_level_command_handler.dart';
 import 'package:mik_tilt_maze/features/game/application/commands/load_level/load_level_command.dart';
 import 'package:mik_tilt_maze/features/game/application/commands/load_level/load_level_command_handler.dart';
 import 'package:mik_tilt_maze/features/game/domain/models/maze_level.dart';
@@ -14,13 +16,16 @@ part 'game_state.dart';
 @injectable
 class GameBloc extends Bloc<GameEvent, GameState> {
   final LoadLevelCommandHandler _loadLevelCommandHandler;
+  final GenerateRandomLevelCommandHandler _generateRandomLevelCommandHandler;
 
   static const int timerDuration = 30;
 
   Timer? _timer;
 
-  GameBloc(this._loadLevelCommandHandler) : super(GameState.initial()) {
+  GameBloc(this._loadLevelCommandHandler, this._generateRandomLevelCommandHandler)
+    : super(GameState.initial()) {
     on<_LoadLevel>(_onLoadLevel);
+    on<_LoadRandomLevel>(_onLoadRandomLevel);
     on<_AddStar>(_onAddStar);
     on<_StartTimer>(_onStartTimer);
     on<_PauseTimer>(_onPauseTimer);
@@ -34,6 +39,20 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     try {
       final level = await _loadLevelCommandHandler.handle(
         LoadLevelCommand(levelName: event.levelName),
+      );
+      emit(state.copyWith(currentLevel: level));
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> _onLoadRandomLevel(
+    _LoadRandomLevel event,
+    Emitter<GameState> emit,
+  ) async {
+    try {
+      final level = await _generateRandomLevelCommandHandler.handle(
+        GenerateRandomLevelCommand(),
       );
       emit(state.copyWith(currentLevel: level));
     } catch (e) {

@@ -12,6 +12,8 @@
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
+import '../../features/game/application/commands/generate_random_level/generate_random_level_command_handler.dart'
+    as _i511;
 import '../../features/game/application/commands/load_level/load_level_command_handler.dart'
     as _i273;
 import '../../features/game/bloc/game_bloc.dart' as _i306;
@@ -31,6 +33,9 @@ extension GetItInjectableX on _i174.GetIt {
     _i526.EnvironmentFilter? environmentFilter,
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
+    gh.factory<_i511.GenerateRandomLevelCommandHandler>(
+      () => _i511.GenerateRandomLevelCommandHandler(),
+    );
     gh.factory<_i273.LoadLevelCommandHandler>(
       () => _i273.LoadLevelCommandHandler(),
     );
@@ -46,7 +51,10 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i976.LoadLevelsProgressQueryHandler(gh<_i264.AppDatabase>()),
     );
     gh.factory<_i306.GameBloc>(
-      () => _i306.GameBloc(gh<_i273.LoadLevelCommandHandler>()),
+      () => _i306.GameBloc(
+        gh<_i273.LoadLevelCommandHandler>(),
+        gh<_i511.GenerateRandomLevelCommandHandler>(),
+      ),
     );
     gh.lazySingleton<_i504.MenuBloc>(
       () => _i504.MenuBloc(

@@ -18,9 +18,11 @@ import 'package:mik_tilt_maze/shared/presentation/ui/nav/base_top_navigation_bar
 import 'package:mik_tilt_maze/shared/presentation/ui/text/base_text.dart';
 
 class GamePage extends StatefulWidget {
-  final String levelId;
+  final String? levelId;
+  final bool isQuickPlay;
 
-  const GamePage({super.key, required this.levelId});
+  const GamePage({super.key, this.levelId, this.isQuickPlay = false})
+    : assert(isQuickPlay || levelId != null);
 
   @override
   State<GamePage> createState() => _GamePageState();
@@ -35,15 +37,21 @@ class _GamePageState extends State<GamePage> {
 
   void _handleGoalReached() {
     final gameState = context.read<GameBloc>().state;
-    context.read<MenuBloc>().add(
-      MenuEvent.saveCurrentLevelProgress(
-        gameState.currentLevel!.id,
-        gameState.stars,
-      ),
-    );
+    if (!widget.isQuickPlay) {
+      context.read<MenuBloc>().add(
+        MenuEvent.saveCurrentLevelProgress(
+          gameState.currentLevel!.id,
+          gameState.stars,
+        ),
+      );
+    }
     context.goNamed(
       'score',
-      extra: {'stars': gameState.stars, 'level_id': gameState.currentLevel?.id},
+      extra: {
+        'stars': gameState.stars,
+        'level_id': gameState.currentLevel?.id,
+        'is_quick_play': widget.isQuickPlay,
+      },
     );
   }
 
@@ -153,7 +161,11 @@ class _GamePageState extends State<GamePage> {
   @override
   void initState() {
     super.initState();
-    context.read<GameBloc>().add(GameEvent.loadLevel(widget.levelId));
+    context.read<GameBloc>().add(
+      widget.isQuickPlay
+          ? const GameEvent.loadRandomLevel()
+          : GameEvent.loadLevel(widget.levelId!),
+    );
     context.read<GameBloc>().add(const GameEvent.startTimer());
   }
 

@@ -18,6 +18,10 @@ class HomePage extends StatelessWidget {
     context.pushNamed('campaign');
   }
 
+  void _handleQuickPlay(BuildContext context) {
+    context.pushNamed('gameQuickPlay');
+  }
+
   @override
   Widget build(BuildContext context) => Scaffold(
     backgroundColor: context.colors.surface0,
@@ -72,10 +76,11 @@ class HomePage extends StatelessWidget {
                   icon: BaseIconName.compass,
                   onPressed: () => _goToCampaign(context),
                 ),
-                const BaseButton(
+                BaseButton(
                   text: 'Quick Play',
                   subText: 'Play random generated level',
                   icon: BaseIconName.dice,
+                  onPressed: () => _handleQuickPlay(context),
                 ),
                 Row(
                   spacing: context.spacing.sm,

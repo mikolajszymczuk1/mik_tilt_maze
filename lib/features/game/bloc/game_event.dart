@@ -4,6 +4,8 @@ part of 'game_bloc.dart';
 sealed class GameEvent with _$GameEvent {
   const factory GameEvent.loadLevel(String levelName) = _LoadLevel;
 
+  const factory GameEvent.loadRandomLevel() = _LoadRandomLevel;
+
   const factory GameEvent.addStar() = _AddStar;
 
   const factory GameEvent.startTimer() = _StartTimer;

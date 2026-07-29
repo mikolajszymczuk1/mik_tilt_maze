@@ -13,18 +13,32 @@ import 'package:mik_tilt_maze/shared/presentation/ui/text/base_text.dart';
 class ScorePage extends StatelessWidget {
   final int stars;
   final String levelId;
+  final bool isQuickPlay;
 
-  const ScorePage({super.key, required this.stars, required this.levelId});
+  const ScorePage({
+    super.key,
+    required this.stars,
+    required this.levelId,
+    this.isQuickPlay = false,
+  });
 
   void _handleGoToLevels(BuildContext context) {
     context.goNamed('campaign', queryParameters: {'from_game': 'true'});
   }
 
   void _handleRestartGame(BuildContext context) {
-    context.pushNamed('game', pathParameters: {'level_id': levelId});
+    if (isQuickPlay) {
+      context.pushNamed('gameQuickPlay');
+    } else {
+      context.pushNamed('game', pathParameters: {'level_id': levelId});
+    }
   }
 
   void _handleNextLevel(BuildContext context) {
+    if (isQuickPlay) {
+      context.pushNamed('gameQuickPlay');
+      return;
+    }
     final levelsCount = context.read<MenuBloc>().state.loadedLevelsIds.length;
     final randomLevelNumber = Random().nextInt(levelsCount) + 1;
     final nextLevelId = 'level_$randomLevelNumber';

@@ -24,7 +24,8 @@ List<GoRoute> menuRoutes = [
       final extra = state.extra as Map<String, dynamic>?;
       final stars = extra?['stars'] as int? ?? 0;
       final levelId = extra?['level_id'] as String;
-      return ScorePage(stars: stars, levelId: levelId);
+      final isQuickPlay = extra?['is_quick_play'] as bool? ?? false;
+      return ScorePage(stars: stars, levelId: levelId, isQuickPlay: isQuickPlay);
     },
   ),
 ];

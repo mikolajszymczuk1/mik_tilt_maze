@@ -56,11 +56,12 @@ extension GameEventPatterns on GameEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _LoadLevel value)?  loadLevel,TResult Function( _AddStar value)?  addStar,TResult Function( _StartTimer value)?  startTimer,TResult Function( _PauseTimer value)?  pauseTimer,TResult Function( _ResumeTimer value)?  resumeTimer,TResult Function( _ResetTimer value)?  resetTimer,TResult Function( _TimerTicked value)?  timerTicked,TResult Function( _RestartGame value)?  restartGame,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _LoadLevel value)?  loadLevel,TResult Function( _LoadRandomLevel value)?  loadRandomLevel,TResult Function( _AddStar value)?  addStar,TResult Function( _StartTimer value)?  startTimer,TResult Function( _PauseTimer value)?  pauseTimer,TResult Function( _ResumeTimer value)?  resumeTimer,TResult Function( _ResetTimer value)?  resetTimer,TResult Function( _TimerTicked value)?  timerTicked,TResult Function( _RestartGame value)?  restartGame,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _LoadLevel() when loadLevel != null:
-return loadLevel(_that);case _AddStar() when addStar != null:
+return loadLevel(_that);case _LoadRandomLevel() when loadRandomLevel != null:
+return loadRandomLevel(_that);case _AddStar() when addStar != null:
 return addStar(_that);case _StartTimer() when startTimer != null:
 return startTimer(_that);case _PauseTimer() when pauseTimer != null:
 return pauseTimer(_that);case _ResumeTimer() when resumeTimer != null:
@@ -85,11 +86,12 @@ return restartGame(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _LoadLevel value)  loadLevel,required TResult Function( _AddStar value)  addStar,required TResult Function( _StartTimer value)  startTimer,required TResult Function( _PauseTimer value)  pauseTimer,required TResult Function( _ResumeTimer value)  resumeTimer,required TResult Function( _ResetTimer value)  resetTimer,required TResult Function( _TimerTicked value)  timerTicked,required TResult Function( _RestartGame value)  restartGame,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _LoadLevel value)  loadLevel,required TResult Function( _LoadRandomLevel value)  loadRandomLevel,required TResult Function( _AddStar value)  addStar,required TResult Function( _StartTimer value)  startTimer,required TResult Function( _PauseTimer value)  pauseTimer,required TResult Function( _ResumeTimer value)  resumeTimer,required TResult Function( _ResetTimer value)  resetTimer,required TResult Function( _TimerTicked value)  timerTicked,required TResult Function( _RestartGame value)  restartGame,}){
 final _that = this;
 switch (_that) {
 case _LoadLevel():
-return loadLevel(_that);case _AddStar():
+return loadLevel(_that);case _LoadRandomLevel():
+return loadRandomLevel(_that);case _AddStar():
 return addStar(_that);case _StartTimer():
 return startTimer(_that);case _PauseTimer():
 return pauseTimer(_that);case _ResumeTimer():
@@ -110,11 +112,12 @@ return restartGame(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _LoadLevel value)?  loadLevel,TResult? Function( _AddStar value)?  addStar,TResult? Function( _StartTimer value)?  startTimer,TResult? Function( _PauseTimer value)?  pauseTimer,TResult? Function( _ResumeTimer value)?  resumeTimer,TResult? Function( _ResetTimer value)?  resetTimer,TResult? Function( _TimerTicked value)?  timerTicked,TResult? Function( _RestartGame value)?  restartGame,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _LoadLevel value)?  loadLevel,TResult? Function( _LoadRandomLevel value)?  loadRandomLevel,TResult? Function( _AddStar value)?  addStar,TResult? Function( _StartTimer value)?  startTimer,TResult? Function( _PauseTimer value)?  pauseTimer,TResult? Function( _ResumeTimer value)?  resumeTimer,TResult? Function( _ResetTimer value)?  resetTimer,TResult? Function( _TimerTicked value)?  timerTicked,TResult? Function( _RestartGame value)?  restartGame,}){
 final _that = this;
 switch (_that) {
 case _LoadLevel() when loadLevel != null:
-return loadLevel(_that);case _AddStar() when addStar != null:
+return loadLevel(_that);case _LoadRandomLevel() when loadRandomLevel != null:
+return loadRandomLevel(_that);case _AddStar() when addStar != null:
 return addStar(_that);case _StartTimer() when startTimer != null:
 return startTimer(_that);case _PauseTimer() when pauseTimer != null:
 return pauseTimer(_that);case _ResumeTimer() when resumeTimer != null:
@@ -138,10 +141,11 @@ return restartGame(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String levelName)?  loadLevel,TResult Function()?  addStar,TResult Function()?  startTimer,TResult Function()?  pauseTimer,TResult Function()?  resumeTimer,TResult Function()?  resetTimer,TResult Function( int secondsLeft)?  timerTicked,TResult Function()?  restartGame,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String levelName)?  loadLevel,TResult Function()?  loadRandomLevel,TResult Function()?  addStar,TResult Function()?  startTimer,TResult Function()?  pauseTimer,TResult Function()?  resumeTimer,TResult Function()?  resetTimer,TResult Function( int secondsLeft)?  timerTicked,TResult Function()?  restartGame,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _LoadLevel() when loadLevel != null:
-return loadLevel(_that.levelName);case _AddStar() when addStar != null:
+return loadLevel(_that.levelName);case _LoadRandomLevel() when loadRandomLevel != null:
+return loadRandomLevel();case _AddStar() when addStar != null:
 return addStar();case _StartTimer() when startTimer != null:
 return startTimer();case _PauseTimer() when pauseTimer != null:
 return pauseTimer();case _ResumeTimer() when resumeTimer != null:
@@ -166,10 +170,11 @@ return restartGame();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String levelName)  loadLevel,required TResult Function()  addStar,required TResult Function()  startTimer,required TResult Function()  pauseTimer,required TResult Function()  resumeTimer,required TResult Function()  resetTimer,required TResult Function( int secondsLeft)  timerTicked,required TResult Function()  restartGame,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String levelName)  loadLevel,required TResult Function()  loadRandomLevel,required TResult Function()  addStar,required TResult Function()  startTimer,required TResult Function()  pauseTimer,required TResult Function()  resumeTimer,required TResult Function()  resetTimer,required TResult Function( int secondsLeft)  timerTicked,required TResult Function()  restartGame,}) {final _that = this;
 switch (_that) {
 case _LoadLevel():
-return loadLevel(_that.levelName);case _AddStar():
+return loadLevel(_that.levelName);case _LoadRandomLevel():
+return loadRandomLevel();case _AddStar():
 return addStar();case _StartTimer():
 return startTimer();case _PauseTimer():
 return pauseTimer();case _ResumeTimer():
@@ -190,10 +195,11 @@ return restartGame();}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String levelName)?  loadLevel,TResult? Function()?  addStar,TResult? Function()?  startTimer,TResult? Function()?  pauseTimer,TResult? Function()?  resumeTimer,TResult? Function()?  resetTimer,TResult? Function( int secondsLeft)?  timerTicked,TResult? Function()?  restartGame,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String levelName)?  loadLevel,TResult? Function()?  loadRandomLevel,TResult? Function()?  addStar,TResult? Function()?  startTimer,TResult? Function()?  pauseTimer,TResult? Function()?  resumeTimer,TResult? Function()?  resetTimer,TResult? Function( int secondsLeft)?  timerTicked,TResult? Function()?  restartGame,}) {final _that = this;
 switch (_that) {
 case _LoadLevel() when loadLevel != null:
-return loadLevel(_that.levelName);case _AddStar() when addStar != null:
+return loadLevel(_that.levelName);case _LoadRandomLevel() when loadRandomLevel != null:
+return loadRandomLevel();case _AddStar() when addStar != null:
 return addStar();case _StartTimer() when startTimer != null:
 return startTimer();case _PauseTimer() when pauseTimer != null:
 return pauseTimer();case _ResumeTimer() when resumeTimer != null:
@@ -273,6 +279,38 @@ as String,
 
 
 }
+
+/// @nodoc
+
+
+class _LoadRandomLevel implements GameEvent {
+  const _LoadRandomLevel();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoadRandomLevel);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'GameEvent.loadRandomLevel()';
+}
+
+
+}
+
+
+
 
 /// @nodoc
 

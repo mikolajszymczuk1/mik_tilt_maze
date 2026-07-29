@@ -1,3 +1,3 @@
 class DebugConfig {
-  static const bool useKeyboardControls = true;
+  static const bool useKeyboardControls = false;
 }
